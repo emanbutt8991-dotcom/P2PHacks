@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.env
+.env.local
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# Keys saved from the app (never commit)
+.canfirst-keys.json
+.env.local.txt
+.env.txt

@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CanFirst-AI Product Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: flag-band header + white document column with a sticky red table of contents, like the app shell. */
+:root {
+  --red: #d52b1e;
+  --red-deep: #a3171c;
+  --red-ink: #6e0e12;
+  --tint: #fdeceb;
+  --tint-2: #f6d3cf;
+  --bg: #faf7f6;
+  --surface: #ffffff;
+  --fg: #1c1718;
+  --fg-2: #4a4244;
+  --muted: #7a7173;
+  --line: #ece2e1;
+  --line-strong: #dccfcd;
+  --on-red: #ffffff;
+  --pos: #1f7a4d;
+  --unc: #a86b12;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --red: #ef4a3c; --red-deep: #ff7a6e; --red-ink: #ffd2cd; --tint: #3a1716; --tint-2: #5a201d;
+    --bg: #141011; --surface: #1d1819; --fg: #f4eeee; --fg-2: #d3c8c9; --muted: #a2979a;
+    --line: #342b2c; --line-strong: #4a3f40; --on-red: #ffffff; --pos: #4fbf86; --unc: #e0a547;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --red: #ef4a3c; --red-deep: #ff7a6e; --red-ink: #ffd2cd; --tint: #3a1716; --tint-2: #5a201d;
+  --bg: #141011; --surface: #1d1819; --fg: #f4eeee; --fg-2: #d3c8c9; --muted: #a2979a;
+  --line: #342b2c; --line-strong: #4a3f40; --on-red: #ffffff; --pos: #4fbf86; --unc: #e0a547;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--red-deep); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; border-radius: 4px; }
+code, .mono { font-family: var(--mono); font-size: 0.86em; }
+code { background: var(--tint); color: var(--red-ink); padding: 1px 5px; border-radius: 4px; }
+
+/* flag band */
+.flag { display: grid; grid-template-columns: 1fr 2fr 1fr; height: 8px; }
+.flag span:nth-child(odd) { background: var(--red); }
+.flag span:nth-child(2) { background: var(--surface); }
+
+/* hero */
+.hero { background: var(--surface); border-bottom: 1px solid var(--line); }
+.hero-in { max-width: 1180px; margin: 0 auto; padding: 48px 16px 40px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center; }
+.eyebrow { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); }
+.hero h1 { font-family: var(--display); font-weight: 900; font-size: clamp(40px, 7vw, 72px); line-height: 0.95; letter-spacing: -0.035em; margin: 10px 0 0; text-wrap: balance; }
+.hero h1 em { font-style: normal; color: var(--red); }
+.hero .q { font-family: var(--display); font-weight: 700; font-size: clamp(20px, 3vw, 28px); color: var(--red-deep); margin: 12px 0 0; }
+.hero p.lede { max-width: 62ch; color: var(--fg-2); font-size: 18px; margin: 16px 0 0; }
+.hero .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.tag { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 0.06em; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--tint-2); color: var(--red-ink); background: var(--tint); }
+.tag.solid { background: var(--red); border-color: var(--red); color: var(--on-red); }
+.leafmark { width: 150px; height: 150px; color: var(--red); }
+@media (max-width: 760px) { .hero-in { grid-template-columns: 1fr; } .leafmark { width: 72px; height: 72px; order: -1; } }
+
+/* shell */
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 80px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); align-self: start; max-height: calc(100vh - 40px); overflow-y: auto; }
+nav.toc .eyebrow { display: block; margin-bottom: 10px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; display: grid; gap: 2px; }
+nav.toc li { counter-increment: toc; }
+nav.toc a { display: grid; grid-template-columns: 26px 1fr; padding: 6px 10px; border-radius: 6px; color: var(--fg-2); text-decoration: none; font-size: 14px; font-weight: 600; }
+nav.toc a::before { content: counter(toc, decimal-leading-zero); font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 2px; }
+nav.toc a:hover { background: var(--tint); color: var(--red-ink); }
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: 1fr; gap: 24px; }
+  nav.toc { position: static; max-height: none; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  nav.toc ol { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+}
+main { min-width: 0; }
+
+/* sections */
+section { padding-block: 36px; border-top: 1px solid var(--line); scroll-margin-top: 16px; }
+section:first-child { border-top: 0; padding-top: 0; }
+h2 { font-family: var(--display); font-weight: 800; font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -0.025em; line-height: 1.1; margin: 6px 0 14px; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: -0.01em; margin: 26px 0 8px; }
+p { max-width: 70ch; margin: 0 0 12px; }
+.sec-num { font-family: var(--mono); font-size: 12px; color: var(--red); letter-spacing: 0.08em; }
+ul.clean { padding-left: 20px; margin: 0 0 12px; max-width: 70ch; }
+ul.clean li { margin-bottom: 4px; }
+ul.clean li::marker { color: var(--red); }
+
+/* pull quote */
+.thesis { border-left: 6px solid var(--red); background: var(--surface); padding: 18px 22px; margin: 20px 0; font-family: var(--display); font-weight: 700; font-size: 20px; line-height: 1.35; max-width: 70ch; }
+.thesis small { display: block; margin-top: 8px; font-family: var(--body); font-weight: 400; font-size: 15px; color: var(--fg-2); }
+
+/* workflow */
+.flow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0; margin: 18px 0 6px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+.flow div { padding: 14px 12px; border-right: 1px solid var(--line); }
+.flow div:last-child { border-right: 0; }
+.flow b { display: block; font-family: var(--display); font-weight: 900; font-size: 14px; letter-spacing: 0.06em; color: var(--red); }
+.flow span { font-size: 13px; color: var(--fg-2); line-height: 1.4; display: block; margin-top: 4px; }
+.flow div:first-child { background: var(--red); }
+.flow div:first-child b, .flow div:first-child span { color: var(--on-red); }
+@media (max-width: 900px) { .flow { grid-template-columns: 1fr; } .flow div { border-right: 0; border-bottom: 1px solid var(--line); } .flow div:last-child { border-bottom: 0; } }
+
+/* modes */
+.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 18px 0; }
+.mode { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; min-width: 0; }
+.mode.live { border: 2px solid var(--red); }
+.mode h3 { margin-top: 0; display: flex; align-items: center; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--red); display: inline-block; }
+.dot.dark { background: var(--fg); }
+.mode dl { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 6px 12px; margin: 12px 0 0; font-size: 14px; }
+.mode dt { color: var(--muted); font-weight: 600; }
+.mode dd { margin: 0; }
+@media (max-width: 700px) { .modes { grid-template-columns: 1fr; } }
+
+/* tables */
+.tw { overflow-x: auto; margin: 14px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-family: var(--display); font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--bg); padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td .mono { white-space: nowrap; }
+tr.hl td { background: var(--tint); }
+
+/* badges (mirror the app) */
+.b { display: inline-block; font-family: var(--display); font-weight: 800; font-size: 10.5px; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 5px; white-space: nowrap; border: 1px solid transparent; }
+.b-ver { background: var(--red-deep); color: var(--on-red); }
+.b-calc { border-color: var(--red); color: var(--red-deep); background: var(--surface); }
+.b-est { border: 1px dashed var(--red); color: var(--red-deep); background: var(--tint); }
+.b-inf { border-color: var(--line-strong); color: var(--fg-2); background: var(--bg); }
+.b-scn { color: var(--red-ink); border-color: var(--tint-2); background: repeating-linear-gradient(135deg, var(--tint), var(--tint) 4px, var(--surface) 4px, var(--surface) 8px); }
+.b-unk { border: 1px dashed var(--line-strong); color: var(--muted); background: var(--surface); }
+.b-demo { background: var(--fg); color: var(--bg); }
+
+/* formula */
+.formula { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin: 14px 0; font-family: var(--mono); font-size: 14px; line-height: 1.9; overflow-x: auto; }
+.formula .op { color: var(--red); font-weight: 600; }
+.formula .total { display: inline-block; margin-top: 6px; padding-top: 6px; border-top: 2px solid var(--red); font-weight: 600; color: var(--red-deep); }
+
+/* bars for landed cost */
+.bars { display: grid; gap: 10px; margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.bar-row { display: grid; grid-template-columns: 190px minmax(0, 1fr) 70px; gap: 12px; align-items: center; font-size: 14px; }
+.bar-row .track { height: 16px; background: var(--bg); border-radius: 999px; overflow: hidden; }
+.bar-row .fill { height: 100%; background: var(--red); border-radius: 999px; }
+.bar-row.cur .fill { background: var(--fg); }
+.bar-row .v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+.bar-note { font-size: 12px; color: var(--muted); }
+@media (max-width: 600px) { .bar-row { grid-template-columns: 1fr 64px; } .bar-row .track { grid-column: 1 / -1; grid-row: 2; } }
+
+/* architecture diagram */
+.arch { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 16px 0; overflow-x: auto; }
+.arch svg { display: block; min-width: 720px; width: 100%; height: auto; }
+.arch text { font-family: var(--body); }
+
+/* callouts */
+.note { border-left: 4px solid var(--red); background: var(--tint); color: var(--red-ink); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 72ch; font-size: 15px; }
+.note b { color: var(--red-ink); }
+.plain { border: 1px dashed var(--line-strong); background: var(--surface); padding: 12px 16px; border-radius: 8px; margin: 14px 0; max-width: 72ch; font-size: 15px; color: var(--fg-2); }
+
+/* steps */
+ol.steps { list-style: none; padding: 0; margin: 14px 0; counter-reset: st; display: grid; gap: 10px; max-width: 760px; }
+ol.steps li { counter-increment: st; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; }
+ol.steps li::before { content: counter(st); width: 30px; height: 30px; border-radius: 50%; background: var(--red); color: var(--on-red); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 14px; }
+ol.steps li > div { padding-top: 3px; min-width: 0; }
+pre.cmd { background: var(--fg); color: var(--bg); font-family: var(--mono); font-size: 13.5px; padding: 12px 14px; border-radius: 8px; overflow-x: auto; margin: 8px 0 0; }
+
+/* demo script */
+.script { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.beat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; min-width: 0; }
+.beat .t { font-family: var(--mono); font-size: 12px; color: var(--red); font-weight: 600; }
+.beat h4 { font-family: var(--display); font-size: 15px; margin: 4px 0 6px; }
+.beat p { font-size: 14px; color: var(--fg-2); margin: 0; }
+@media (max-width: 900px) { .script { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .script { grid-template-columns: 1fr; } }
+
+/* footer */
+.end { background: var(--red); color: var(--on-red); border-radius: 16px; padding: 36px 24px; text-align: center; margin-top: 36px; }
+.end h2 { color: var(--on-red); margin: 8px 0; }
+.end p { margin: 0 auto; color: var(--on-red); opacity: 0.92; }
+.end svg { width: 48px; height: 48px; color: var(--on-red); }
+
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style></head><body style="margin:0">
+
+<div class="flag" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<header class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="eyebrow">Product guide · Version 0.2 · October 2026</div>
+      <h1>CanFirst<em>-AI</em></h1>
+      <div class="q">Can Canada supply it first?</div>
+      <p class="lede">A Canadian supply-chain intelligence platform. It maps what a company or industry depends on from the U.S. and abroad, looks for Canadian suppliers first, finds international Plan B options, and simulates what happens to cost, tariffs, carbon, jobs and resilience before anyone makes the switch.</p>
+      <div class="tags">
+        <span class="tag solid">Canadian options first</span>
+        <span class="tag">Global alternatives always</span>
+        <span class="tag">Evidence decides</span>
+      </div>
+    </div>
+    <svg class="leafmark" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><polygon points="50,4 56,18 64,14 61,38 76,24 79,32 92,30 86,46 94,50 72,66 76,74 54,71 53,94 47,94 46,71 24,74 28,66 6,50 14,46 8,30 21,32 24,24 39,38 36,14 44,18"/></svg>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <span class="eyebrow">Contents</span>
+    <ol>
+      <li><a href="#what">What it is</a></li>
+      <li><a href="#workflow">The workflow</a></li>
+      <li><a href="#modes">Demo and Live</a></li>
+      <li><a href="#features">Features by page</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#evidence">Evidence system</a></li>
+      <li><a href="#engine">Calculation engine</a></li>
+      <li><a href="#live">Live research</a></li>
+      <li><a href="#agents">The 12 agents</a></li>
+      <li><a href="#setup">Setup</a></li>
+      <li><a href="#demo">3-minute demo</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#limits">Limits and roadmap</a></li>
+      <li><a href="#files">Project files</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="what">
+      <div class="sec-num">01 · OVERVIEW</div>
+      <h2>What CanFirst-AI is</h2>
+      <p>Canadian manufacturers, retailers and public buyers rely heavily on U.S. inputs. When tariffs or trade disputes hit, they need fast answers: what are we exposed to, can a Canadian company make this, and what happens if we switch? Today that research takes weeks of spreadsheets, trade databases and phone calls.</p>
+      <p>CanFirst-AI turns that into one guided flow. A user searches a company, industry, product, material or HS code. The platform maps the dependencies, searches Canada first, adds global Plan B suppliers, and runs the numbers on a switch, showing every trade-off along the way.</p>
+      <div class="thesis">Before looking abroad, understand whether Canada can supply it, and understand the consequences before making the decision.
+        <small>CanFirst-AI is not "buy Canadian at any cost". A Canadian supplier is investigated first but never assumed to be best. The final decision always belongs to the user.</small></div>
+      <h3>Who it is for</h3>
+      <ul class="clean">
+        <li><b>Procurement and supply-chain teams</b> at Canadian companies facing tariff exposure.</li>
+        <li><b>Economic development and industry associations</b> looking for import-substitution opportunities.</li>
+        <li><b>Policy analysts and public buyers</b> who need neutral, sourced trade-offs rather than advocacy.</li>
+      </ul>
+    </section>
+
+    <section id="workflow">
+      <div class="sec-num">02 · WORKFLOW</div>
+      <h2>Seven steps, in order</h2>
+      <p>Every analysis follows the same sequence. Each step depends on the one before it.</p>
+      <div class="flow" role="list">
+        <div role="listitem"><b>DISCOVER</b><span>Understand the company, industry or product</span></div>
+        <div role="listitem"><b>MAP</b><span>Map known and inferred dependencies</span></div>
+        <div role="listitem"><b>FIND</b><span>Search Canadian suppliers first</span></div>
+        <div role="listitem"><b>VERIFY</b><span>Check they can really supply the spec</span></div>
+        <div role="listitem"><b>SIMULATE</b><span>Model the sourcing change</span></div>
+        <div role="listitem"><b>COMPARE</b><span>Canada vs current vs Plan B</span></div>
+        <div role="listitem"><b>PLAN</b><span>6-month to 3-year transition</span></div>
+      </div>
+    </section>
+
+    <section id="modes">
+      <div class="sec-num">03 · MODES</div>
+      <h2>Demo mode and Live mode</h2>
+      <p>The app runs in two modes side by side. The header chip shows which one you are in.</p>
+      <div class="modes">
+        <div class="mode">
+          <h3><span class="dot dark"></span>Demo mode</h3>
+          <p>A complete, offline walkthrough built on a fictional company, <b>CanFirst Industrial Systems</b> (Cambridge, Ontario, 350 employees, advanced manufacturing).</p>
+          <dl>
+            <dt>Data</dt><dd>Fictional, labelled <span class="b b-demo">DEMO DATA</span></dd>
+            <dt>Needs</dt><dd>Nothing. No internet, no API key</dd>
+            <dt>Covers</dt><dd>Every feature, including Simulate Switch, Ripple Effect and the 3-year outlook</dd>
+            <dt>Use it for</dt><dd>The guaranteed stage demo and as a fallback</dd>
+          </dl>
+        </div>
+        <div class="mode live">
+          <h3><span class="dot"></span>Live mode</h3>
+          <p>Real research on any real company, industry, product or HS code, using an AI model with web search and automatic source checking.</p>
+          <dl>
+            <dt>Data</dt><dd>Real web sources, each one listed and linked</dd>
+            <dt>Needs</dt><dd>One API key (Claude, ChatGPT, Gemini or Perplexity)</dd>
+            <dt>Covers</dt><dd>Dependencies, Canadian suppliers, Plan B, tariffs, unknowns, sources</dd>
+            <dt>Speed</dt><dd>About 20 to 60 seconds per search, a few cents each</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="plain">Live results shortlist and verify suppliers. The Simulate Switch cost model needs real prices and volumes, so it currently runs on the demo company. Feeding live results into the simulator is on the roadmap.</div>
+    </section>
+
+    <section id="features">
+      <div class="sec-num">04 · FEATURES</div>
+      <h2>What each page does</h2>
+      <div class="tw"><table>
+        <thead><tr><th>Page</th><th>What it does</th><th>Data</th></tr></thead>
+        <tbody>
+          <tr><td><b>Overview</b></td><td>Hero, search, Canada dependency map, flagship demo entry and the evidence legend.</td><td><span class="b b-demo">DEMO</span></td></tr>
+          <tr class="hl"><td><b>● Live Research</b></td><td>Researches any real subject on the web. Returns dependencies, Canadian suppliers, Plan B, tariffs, unknowns and a source list, then runs the Red Team check.</td><td><span class="b b-ver">LIVE</span></td></tr>
+          <tr><td><b>Canada Map</b></td><td>Province tiles coloured white to red by U.S. dependency, import value, tariff exposure or substitution opportunity. Drill into Ontario to reach the demo company.</td><td><span class="b b-demo">DEMO</span></td></tr>
+          <tr><td><b>Industries</b></td><td>16 sector cards with major provinces, imported inputs and HS chapters. Unsourced figures say <i>Data not available</i>.</td><td><span class="b b-inf">INFERRED</span></td></tr>
+          <tr><td><b>Company page</b></td><td>The flagship: company profile, supply-chain graph, intelligence drawer, Can Canada Supply It?, Plan B, landed cost, Simulate Switch, Before → After, Ripple Effect, 3-year outlook, Recommendation Matrix.</td><td><span class="b b-demo">DEMO</span></td></tr>
+          <tr><td><b>Trade Explorer</b></td><td>Procurement by HS code and origin country with tariff, lead time and relationship label.</td><td><span class="b b-demo">DEMO</span></td></tr>
+          <tr><td><b>Canadian Suppliers</b></td><td>Supplier directory with product-match grades and the Plan B table.</td><td><span class="b b-demo">DEMO</span></td></tr>
+          <tr><td><b>Scenario Lab</b></td><td>Sliders for allocation, volume, steel price, tariff, FX, freight and carbon price. Six strategy modes. Resilience dashboard with editable weights.</td><td><span class="b b-calc">CALCULATED</span></td></tr>
+          <tr><td><b>Agent Room</b></td><td>Animated view of the 12 agents working on the demo analysis.</td><td><span class="b b-demo">SCRIPTED</span></td></tr>
+          <tr><td><b>Reports</b></td><td>CanFirst Intelligence Report with summary, impacts, scenarios, matrix, assumptions and sources. Export PDF, CSV or JSON.</td><td><span class="b b-calc">CALCULATED</span></td></tr>
+          <tr><td><b>Upload</b></td><td>Parses a procurement CSV in the browser and shows <i>Your foreign dependency</i>.</td><td>Your file</td></tr>
+          <tr><td><b>Data Sources</b></td><td>Source connectors grouped into five quality tiers.</td><td>Reference</td></tr>
+          <tr><td><b>Agent Settings</b></td><td>Provider, model, temperature, max tokens, system prompt and a working Test Connection for each agent.</td><td>Config</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="how">
+      <div class="sec-num">05 · ARCHITECTURE</div>
+      <h2>How it works</h2>
+      <p>The rule behind the design: <b>AI researches, code calculates.</b> Language models find and classify information. Every percentage, tariff, landed cost, carbon figure and scenario comes from deterministic code that gives the same answer every time.</p>
+      <div class="arch" role="img" aria-label="Architecture: the browser talks to Next.js pages. Demo pages read demo data and the calculation engine. Live research goes through a server route to an AI provider with web search, then through Red Team verification before returning to the browser.">
+        <svg viewBox="0 0 900 330">
+          <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--red)"/></marker></defs>
+          <!-- browser -->
+          <rect x="20" y="130" width="150" height="70" rx="10" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+          <text x="95" y="160" text-anchor="middle" font-weight="700" font-size="15" fill="var(--fg)">Browser</text>
+          <text x="95" y="180" text-anchor="middle" font-size="12" fill="var(--muted)">React pages</text>
+          <!-- demo path -->
+          <rect x="250" y="40" width="190" height="70" rx="10" fill="var(--surface)" stroke="var(--line-strong)"/>
+          <text x="345" y="70" text-anchor="middle" font-weight="700" font-size="14" fill="var(--fg)">Demo data</text>
+          <text x="345" y="90" text-anchor="middle" font-size="12" fill="var(--muted)">lib/demo-data.ts</text>
+          <rect x="500" y="40" width="210" height="70" rx="10" fill="var(--tint)" stroke="var(--red)" stroke-width="2"/>
+          <text x="605" y="70" text-anchor="middle" font-weight="700" font-size="14" fill="var(--red-ink)">Calculation engine</text>
+          <text x="605" y="90" text-anchor="middle" font-size="12" fill="var(--red-ink)">lib/calc.ts · no AI maths</text>
+          <!-- live path -->
+          <rect x="250" y="220" width="190" height="70" rx="10" fill="var(--surface)" stroke="var(--line-strong)"/>
+          <text x="345" y="250" text-anchor="middle" font-weight="700" font-size="14" fill="var(--fg)">Server route</text>
+          <text x="345" y="270" text-anchor="middle" font-size="12" fill="var(--muted)">/api/research · holds keys</text>
+          <rect x="500" y="220" width="170" height="70" rx="10" fill="var(--fg)"/>
+          <text x="585" y="250" text-anchor="middle" font-weight="700" font-size="14" fill="var(--bg)">AI + web search</text>
+          <text x="585" y="270" text-anchor="middle" font-size="12" fill="var(--bg)">Claude · GPT · Gemini</text>
+          <rect x="710" y="220" width="170" height="70" rx="10" fill="var(--red)"/>
+          <text x="795" y="250" text-anchor="middle" font-weight="700" font-size="14" fill="var(--on-red)">Red Team check</text>
+          <text x="795" y="270" text-anchor="middle" font-size="12" fill="var(--on-red)">lib/live.ts</text>
+          <!-- arrows -->
+          <path d="M170,150 C210,150 210,75 248,75" fill="none" stroke="var(--red)" stroke-width="2" marker-end="url(#ah)"/>
+          <path d="M440,75 L498,75" fill="none" stroke="var(--red)" stroke-width="2" marker-end="url(#ah)"/>
+          <path d="M170,180 C210,180 210,255 248,255" fill="none" stroke="var(--red)" stroke-width="2" marker-end="url(#ah)"/>
+          <path d="M440,255 L498,255" fill="none" stroke="var(--red)" stroke-width="2" marker-end="url(#ah)"/>
+          <path d="M670,255 L708,255" fill="none" stroke="var(--red)" stroke-width="2" marker-end="url(#ah)"/>
+          <path d="M795,290 C795,320 95,320 95,202" fill="none" stroke="var(--red)" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ah)"/>
+          <path d="M710,75 C800,75 800,140 172,140" fill="none" stroke="var(--red)" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ah)"/>
+          <text x="20" y="28" font-size="11" font-weight="700" letter-spacing="1.5" fill="var(--muted)">DEMO PATH</text>
+          <text x="20" y="318" font-size="11" font-weight="700" letter-spacing="1.5" fill="var(--muted)">LIVE PATH</text>
+          <text x="450" y="314" text-anchor="middle" font-size="11" fill="var(--muted)">verified, labelled results</text>
+        </svg>
+      </div>
+      <h3>Technology</h3>
+      <ul class="clean">
+        <li><b>Frontend:</b> Next.js 15 (App Router), React 19, TypeScript. Charts, the map and the supply-chain graph are hand-drawn SVG, so there are no chart libraries to break.</li>
+        <li><b>Backend:</b> Next.js API routes on Node. <code>/api/research</code> runs live research and <code>/api/agents/test</code> checks provider keys.</li>
+        <li><b>State:</b> one shared in-memory store, so the supplier choice and mix carry across the company page, Scenario Lab and Reports.</li>
+        <li><b>Data sources:</b> a common adapter interface (<code>lib/sources.ts</code>), so Statistics Canada, Trade Data Online, CBSA and others can be plugged in without touching the UI.</li>
+      </ul>
+    </section>
+
+    <section id="evidence">
+      <div class="sec-num">06 · EVIDENCE</div>
+      <h2>Every number says where it came from</h2>
+      <p>CanFirst-AI never turns uncertainty into fact. Every important value carries a visible label, and clicking it opens <b>Why am I seeing this?</b>: value, classification, confidence, source, dates, method, assumptions and the agent responsible.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Label</th><th>Meaning</th><th>Example in the app</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-ver">VERIFIED FACT</span></td><td>Directly supported by a credible source that was retrieved.</td><td>A supplier's product page found in live search</td></tr>
+          <tr><td><span class="b b-calc">CALCULATED</span></td><td>Derived by code from sourced inputs.</td><td>U.S. dependency 68%</td></tr>
+          <tr><td><span class="b b-est">ESTIMATED</span></td><td>Incomplete data with a disclosed method.</td><td>Steel CO2e per year</td></tr>
+          <tr><td><span class="b b-inf">INFERRED</span></td><td>Reasonable but not directly confirmed.</td><td>An HS code suggested from a description</td></tr>
+          <tr><td><span class="b b-scn">AI SCENARIO</span></td><td>Forward-looking, built from stated assumptions. Never a prediction.</td><td>3-year outlook, jobs supported</td></tr>
+          <tr><td><span class="b b-unk">UNKNOWN</span></td><td>Not enough evidence. Shown as <i>Data not available</i>.</td><td>Transport cost for non-flagship inputs</td></tr>
+          <tr><td><span class="b b-demo">DEMO DATA</span></td><td>Fictional values for the demo company.</td><td>Annual spend, supplier names</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Confidence, product match and relationships</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Scale</th><th>Values</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td><b>Confidence</b></td><td>High · Medium · Low · Unknown</td><td>Shown on every claim.</td></tr>
+          <tr><td><b>Product match</b></td><td>Exact · Comparable · Possible · Unverified</td><td>Being in the same industry is never enough. An unverified supplier cannot be selected for a simulation.</td></tr>
+          <tr><td><b>Relationship</b></td><td>Confirmed · High-confidence inference · Possible · Unknown</td><td>The app never says company A buys from supplier B without evidence. Importers are not assumed to be the final users.</td></tr>
+          <tr><td><b>Source tier</b></td><td>1 Government · 2 Company filings · 3 Associations · 4 News · 5 Other</td><td>Stronger tiers are preferred. Conflicting sources are shown, not silently resolved.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="engine">
+      <div class="sec-num">07 · CALCULATION ENGINE</div>
+      <h2>The numbers, and how they are made</h2>
+      <p>All maths lives in <code>lib/calc.ts</code>. The formulas below are shown in the app next to the results, and every input can be changed in the Scenario Lab.</p>
+      <h3>Landed cost per tonne</h3>
+      <div class="formula">
+        product price × commodity index<br>
+        <span class="op">+</span> freight per tonne × freight multiplier<br>
+        <span class="op">+</span> tariff &nbsp;= price × applied tariff %<br>
+        <span class="op">+</span> insurance = price × insurance %<br>
+        <span class="op">+</span> brokerage and customs (flat per tonne)<br>
+        <span class="op">+</span> currency impact = price × (FX risk % + FX shock %)<br>
+        <span class="op">+</span> carbon cost = carbon price × (production + transport CO2e per tonne)<br>
+        <span class="op">+</span> switching cost ÷ (3 years × annual volume)<br>
+        <span class="total">= ESTIMATED LANDED COST</span>
+      </div>
+      <p>Demo result for hot-rolled steel (HS 7208), 9,800 tonnes a year:</p>
+      <div class="bars" role="img" aria-label="Landed cost per tonne: Gulf Coast Steel, Texas, 1,181 dollars; Lakeshore Steel Works, Hamilton, 931; Hanbit Steel, South Korea, 943; Acero Monterrey, Mexico, 987; Northbridge EAF, Sault Ste. Marie, 992; Rheinwerk Stahl, Germany, 1,110.">
+        <div class="bar-row cur"><span><b>Gulf Coast Steel</b> · Texas (current)</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">$1,181</span></div>
+        <div class="bar-row"><span><b>Lakeshore Steel</b> · Hamilton, ON</span><div class="track"><div class="fill" style="width:78.8%"></div></div><span class="v">$931</span></div>
+        <div class="bar-row"><span><b>Hanbit Steel</b> · South Korea</span><div class="track"><div class="fill" style="width:79.8%"></div></div><span class="v">$943</span></div>
+        <div class="bar-row"><span><b>Acero Monterrey</b> · Mexico</span><div class="track"><div class="fill" style="width:83.6%"></div></div><span class="v">$987</span></div>
+        <div class="bar-row"><span><b>Northbridge EAF</b> · Sault Ste. Marie</span><div class="track"><div class="fill" style="width:84%"></div></div><span class="v">$992</span></div>
+        <div class="bar-row"><span><b>Rheinwerk Stahl</b> · Germany</span><div class="track"><div class="fill" style="width:94%"></div></div><span class="v">$1,110</span></div>
+        <div class="bar-note">CAD per tonne, demo data. The Texas price is driven up by the 25% tariff, a demo assumption modelled on Canada's 2025 counter-tariffs.</div>
+      </div>
+      <h3>Other calculations</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Metric</th><th>Formula</th><th>Label</th></tr></thead>
+        <tbody>
+          <tr><td>U.S. dependency</td><td>U.S.-origin spend ÷ total procurement</td><td><span class="b b-calc">CALCULATED</span></td></tr>
+          <tr><td>Transport CO2e</td><td>tonnes × km × mode factor (truck 0.105, rail 0.022, ocean 0.011 kg CO2e per tonne-km)</td><td><span class="b b-est">ESTIMATED</span></td></tr>
+          <tr><td>Country concentration</td><td>Herfindahl index: sum of (country share %)². Lower means more diversified.</td><td><span class="b b-calc">CALCULATED</span></td></tr>
+          <tr><td>Canadian economic activity</td><td>Canadian procurement × output multiplier (1.55, illustrative)</td><td><span class="b b-est">ESTIMATED</span></td></tr>
+          <tr><td>Jobs supported</td><td>Economic activity ÷ $300,000 output per job. Gross, not net.</td><td><span class="b b-scn">AI SCENARIO</span></td></tr>
+          <tr><td>3-year outlook</td><td>Status quo cost − scenario cost per year, after up-front switching costs, under Base, Upside and Downside assumptions</td><td><span class="b b-scn">AI SCENARIO</span></td></tr>
+          <tr><td>Strategy modes</td><td>Searches every capacity-feasible supplier mix in 10% steps and picks the best for one objective</td><td><span class="b b-calc">CALCULATED</span></td></tr>
+        </tbody>
+      </table></div>
+      <h3>Default switch: 70% Hamilton, 15% South Korea, 15% Texas</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Metric</th><th class="num">Before</th><th class="num">After</th><th>Direction</th></tr></thead>
+        <tbody>
+          <tr><td>U.S. dependency</td><td class="num">68%</td><td class="num">≈ 43%</td><td style="color:var(--pos);font-weight:700">Better</td></tr>
+          <tr><td>Canadian procurement</td><td class="num">18%</td><td class="num">≈ 40%</td><td style="color:var(--pos);font-weight:700">Better</td></tr>
+          <tr><td>Annual steel landed cost</td><td class="num">$11.57M</td><td class="num">$9.51M</td><td style="color:var(--pos);font-weight:700">Better</td></tr>
+          <tr><td>Tariff exposure</td><td class="num">$2.10M</td><td class="num">$0.31M</td><td style="color:var(--pos);font-weight:700">Better</td></tr>
+          <tr><td>Weighted lead time</td><td class="num">21 days</td><td class="num">17 days</td><td style="color:var(--pos);font-weight:700">Better</td></tr>
+          <tr><td>Steel CO2e per year</td><td class="num">12,256 t</td><td class="num">15,883 t</td><td style="color:var(--red);font-weight:700">Worse</td></tr>
+          <tr><td>Country concentration (HHI)</td><td class="num">5,046</td><td class="num">3,485</td><td style="color:var(--pos);font-weight:700">Better</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><b>The trade-off is real.</b> The cheapest switch raises emissions, because the Hamilton mill has a higher production intensity than the Texas mill. The app shows this openly instead of hiding it, and the Recommendation Matrix offers a lowest-carbon mix as a separate option.</div>
+    </section>
+
+    <section id="live">
+      <div class="sec-num">08 · LIVE RESEARCH</div>
+      <h2>How a live search works</h2>
+      <ol class="steps">
+        <li><div><b>You search</b> a company, product, material or HS code. The server cleans the input (160 characters maximum) and limits each user to 6 searches a minute.</div></li>
+        <li><div><b>The AI researches with web search.</b> A strict brief tells it to prefer Tier 1 sources, never invent companies, prices or tariffs, cite a source for every claim, grade product match honestly and stay politically neutral.</div></li>
+        <li><div><b>Structured results come back</b> as JSON: subject, inputs, Canadian suppliers, Plan B, tariffs, unknowns and sources. The server rejects malformed output instead of guessing.</div></li>
+        <li><div><b>The Red Team check runs in code.</b> Every claim is compared against the pages the AI actually retrieved during the search.</div></li>
+        <li><div><b>You see the results</b> with labels, clickable source numbers, the count of claims checked and downgraded, and an export button.</div></li>
+      </ol>
+      <h3>Red Team rules</h3>
+      <div class="tw"><table>
+        <thead><tr><th>If a claim…</th><th>Then</th></tr></thead>
+        <tbody>
+          <tr><td>cites no source</td><td>"Verified fact" becomes <span class="b b-inf">INFERRED</span>, confidence drops to Low</td></tr>
+          <tr><td>cites a page that was not actually retrieved in the search</td><td>"Verified fact" becomes <span class="b b-inf">INFERRED</span>, High confidence drops to Medium</td></tr>
+          <tr><td>is a supplier with no source</td><td>Product match is forced to <b>Unverified</b></td></tr>
+          <tr><td>comes from a provider without web search (Grok in this app)</td><td>Nothing can be marked Verified. Results come from model memory and are labelled that way.</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Supported providers</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Provider</th><th>Web search</th><th>Key from</th><th>Environment variable</th></tr></thead>
+        <tbody>
+          <tr><td><b>Claude</b> (Anthropic)</td><td>Yes</td><td>console.anthropic.com</td><td><span class="mono">ANTHROPIC_API_KEY</span></td></tr>
+          <tr><td><b>ChatGPT</b> (OpenAI)</td><td>Yes</td><td>platform.openai.com</td><td><span class="mono">OPENAI_API_KEY</span></td></tr>
+          <tr><td><b>Gemini</b> (Google), free tier</td><td>Yes</td><td>aistudio.google.com</td><td><span class="mono">GEMINI_API_KEY</span></td></tr>
+          <tr><td><b>Perplexity</b></td><td>Yes</td><td>perplexity.ai settings</td><td><span class="mono">PERPLEXITY_API_KEY</span></td></tr>
+          <tr><td><b>Grok</b> (xAI)</td><td>No</td><td>console.x.ai</td><td><span class="mono">XAI_API_KEY</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="plain">API keys are separate from ChatGPT Plus, Claude Pro or SuperGrok subscriptions. They are bought on each company's developer site and billed per use.</div>
+    </section>
+
+    <section id="agents">
+      <div class="sec-num">09 · MULTI-AGENT DESIGN</div>
+      <h2>The 12 agents</h2>
+      <p>The platform is designed as a team of specialists. Each one can be given its own provider and model in Agent Settings.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Agent</th><th>Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td><b>Company Intelligence</b></td><td>Company, operations, products, documented relationships</td></tr>
+          <tr><td><b>Trade</b></td><td>HS codes, NAICS, trade flows, tariffs, agreements</td></tr>
+          <tr><td><b>Canadian Supplier</b></td><td>Can Canada supply it first? Product fit, location, certifications, capacity</td></tr>
+          <tr><td><b>Global Supplier</b></td><td>Plan B outside Canada and the current supplier country</td></tr>
+          <tr><td><b>Financial</b></td><td>Landed cost, FX, switching and 3-year impact (uses the calculation engine)</td></tr>
+          <tr><td><b>Climate</b></td><td>Production and transport CO2e</td></tr>
+          <tr><td><b>Economic</b></td><td>Import substitution, regional activity, employment scenarios</td></tr>
+          <tr><td><b>Community</b></td><td>Workers, regions, skills, Indigenous economic and consultation considerations where evidence supports it</td></tr>
+          <tr><td><b>Policy &amp; Geopolitical</b></td><td>Tariffs, sanctions, export controls, chokepoints. Separates current policy from future scenarios.</td></tr>
+          <tr><td><b>Forecast</b></td><td>Base, Upside and Downside paths over 6 months to 3 years</td></tr>
+          <tr><td><b>Red Team / Verification</b></td><td>Challenges every claim, source and calculation</td></tr>
+          <tr><td><b>Chief Analyst</b></td><td>Writes the report from verified outputs only. Never upgrades possible to confirmed or scenario to prediction.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="plain"><b>Current build:</b> live search runs the research roles as one AI request, and the Red Team runs as deterministic code. The Agent Room shows the full 12-agent story for the demo company as an animation. Splitting live research into separate agent calls is on the roadmap.</div>
+    </section>
+
+    <section id="setup">
+      <div class="sec-num">10 · SETUP</div>
+      <h2>Install and run</h2>
+      <ol class="steps">
+        <li><div><b>Install Node.js</b> (LTS version) from nodejs.org.</div></li>
+        <li><div><b>Unzip</b> <span class="mono">canfirst-ai.zip</span> and open the folder in VS Code with File → Open Folder.</div></li>
+        <li><div><b>Install packages.</b> Open Terminal → New Terminal and run:<pre class="cmd">npm install</pre></div></li>
+        <li><div><b>Start the app</b> and open <span class="mono">http://localhost:3000</span>:<pre class="cmd">npm run dev</pre></div></li>
+        <li><div><b>Optional, for Live mode:</b> copy <span class="mono">.env.example</span> to <span class="mono">.env.local</span>, paste one API key, then stop the app with Ctrl + C and run <span class="mono">npm run dev</span> again.</div></li>
+        <li><div><b>Check the key</b> in Agent Settings with <b>Test Connection</b>, then run a practice search on Live Research. If you see "model not found", edit the model box next to the provider.</div></li>
+      </ol>
+    </section>
+
+    <section id="demo">
+      <div class="sec-num">11 · PRESENTING</div>
+      <h2>The 3-minute demo</h2>
+      <div class="script">
+        <div class="beat"><div class="t">0:00</div><h4>Open and frame</h4><p>Homepage. "Can Canada supply it first?" Point at the Canada dependency map.</p></div>
+        <div class="beat"><div class="t">0:20</div><h4>Find the exposure</h4><p>Search CanFirst Industrial Systems. The graph shows U.S. dependency of 68%.</p></div>
+        <div class="beat"><div class="t">0:40</div><h4>Pick the input</h4><p>Click Steel from Texas: $8.4M a year, 25% tariff, rail, carbon, lead time.</p></div>
+        <div class="beat"><div class="t">1:00</div><h4>Canada first</h4><p>Can Canada Supply It? Show match grades and the unverified supplier that cannot be picked.</p></div>
+        <div class="beat"><div class="t">1:25</div><h4>Plan B and cost</h4><p>South Korea, Germany, Mexico. Landed cost formulas side by side.</p></div>
+        <div class="beat"><div class="t">1:50</div><h4>Simulate Switch</h4><p>The Texas link fades, new links draw in. Before → After. Click a number to open its evidence.</p></div>
+        <div class="beat"><div class="t">2:20</div><h4>Consequences</h4><p>Ripple Effect, 3-year outlook, and the carbon trade-off.</p></div>
+        <div class="beat"><div class="t">2:40</div><h4>Go live</h4><p>Open Live Research on a pre-run real company. Show sources and the Red Team count.</p></div>
+        <div class="beat"><div class="t">2:55</div><h4>Close</h4><p>Recommendation Matrix: five honest options, no single "best". End card.</p></div>
+      </div>
+      <div class="note"><b>Before going on stage:</b> run one live search in advance and keep that tab open. If Wi-Fi or the API fails, the demo company needs no internet.</div>
+    </section>
+
+    <section id="security">
+      <div class="sec-num">12 · SECURITY</div>
+      <h2>Security and privacy</h2>
+      <ul class="clean">
+        <li>API keys are read only on the server from <span class="mono">.env.local</span> and never included in the browser bundle. That file is excluded from Git.</li>
+        <li>Session keys typed in Agent Settings stay in the tab's memory, are masked, are used only for the connection test, and disappear on reload.</li>
+        <li>Search input is length-limited and stripped of control characters. AI output is parsed into a fixed shape, and unexpected fields are dropped.</li>
+        <li>Rate limits: 6 live searches and 20 connection tests per minute per client.</li>
+        <li>Procurement CSVs are parsed in the browser and never uploaded. Files are capped at 2 MB.</li>
+        <li>Demo data is kept separate from live data and labelled on screen.</li>
+      </ul>
+    </section>
+
+    <section id="limits">
+      <div class="sec-num">13 · LIMITS AND ROADMAP</div>
+      <h2>What it does not do yet</h2>
+      <div class="tw"><table>
+        <thead><tr><th>Today</th><th>Next</th></tr></thead>
+        <tbody>
+          <tr><td>Simulate Switch runs on the demo company only</td><td>Feed live suppliers and user-entered quotes into the simulator</td></tr>
+          <tr><td>Live research is one AI request plus code verification</td><td>Separate agent calls with a model-based Red Team</td></tr>
+          <tr><td>Province map values are illustrative</td><td>Statistics Canada and Trade Data Online connectors</td></tr>
+          <tr><td>Tariff rates come from AI-found sources</td><td>Direct CBSA Customs Tariff lookup by HS code</td></tr>
+          <tr><td>Upload accepts CSV only</td><td>Excel and PDF invoice extraction by AI</td></tr>
+          <tr><td>No accounts or saved analyses</td><td>Database, user accounts and shared reports</td></tr>
+          <tr><td>Economic multiplier is illustrative</td><td>Statistics Canada input-output multipliers by industry</td></tr>
+        </tbody>
+      </table></div>
+      <p>AI-researched results are for shortlisting. Confirm prices, capacity and tariffs with suppliers and the CBSA before any purchasing decision.</p>
+    </section>
+
+    <section id="files">
+      <div class="sec-num">14 · PROJECT FILES</div>
+      <h2>Where things live</h2>
+      <div class="tw"><table>
+        <thead><tr><th>Path</th><th>Contents</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono">app/</span></td><td>Every page, one folder each</td></tr>
+          <tr><td><span class="mono">app/companies/canfirst-industrial/</span></td><td>The flagship demo flow</td></tr>
+          <tr><td><span class="mono">app/live/</span></td><td>Live Research page</td></tr>
+          <tr><td><span class="mono">app/api/research/</span></td><td>Server route for live research</td></tr>
+          <tr><td><span class="mono">app/api/agents/test/</span></td><td>Server route for Test Connection</td></tr>
+          <tr><td><span class="mono">lib/calc.ts</span></td><td>Calculation engine</td></tr>
+          <tr><td><span class="mono">lib/live.ts</span></td><td>Provider calls, JSON parsing, Red Team verification</td></tr>
+          <tr><td><span class="mono">lib/demo-data.ts</span></td><td>Fictional company, suppliers and province values</td></tr>
+          <tr><td><span class="mono">lib/agents.ts</span> · <span class="mono">lib/sources.ts</span></td><td>Agent registry and data-source tiers</td></tr>
+          <tr><td><span class="mono">components/</span></td><td>Graph, map, evidence drawer, badges, flagship sections</td></tr>
+          <tr><td><span class="mono">app/globals.css</span></td><td>All colours as tokens at the top. Flag red is <span class="mono">#D52B1E</span>.</td></tr>
+          <tr><td><span class="mono">.env.example</span></td><td>Template for API keys. Copy to <span class="mono">.env.local</span>.</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="end">
+        <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><polygon points="50,4 56,18 64,14 61,38 76,24 79,32 92,30 86,46 94,50 72,66 76,74 54,71 53,94 47,94 46,71 24,74 28,66 6,50 14,46 8,30 21,32 24,24 39,38 36,14 44,18"/></svg>
+        <h2>Can Canada supply it first?</h2>
+        <p>CanFirst-AI helps you find out before you make the switch.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body></html>
