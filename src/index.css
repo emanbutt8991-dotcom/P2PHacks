@@ -30,16 +30,16 @@
     "brand" scale used across components (ocean → teal).
     700 is the primary action colour (white text passes WCAG AA).
   */
-  --color-brand-50: #eefaf9;
-  --color-brand-100: #d5f3ef;
-  --color-brand-200: #a9e7df;
-  --color-brand-300: #5eead4;
-  --color-brand-400: #2fc7b6;
-  --color-brand-500: #14b8a6;
-  --color-brand-600: #1a7fa8;
-  --color-brand-700: #176b9a;
-  --color-brand-800: #12547a;
-  --color-brand-900: #102a43;
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #0b2239;
 
   --animate-fade-up: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-fade-in: fade-in 0.35s ease-out both;
@@ -108,6 +108,84 @@
       opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
       transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* Supply-chain map markers */
+  .wm-node {
+    display: flex;
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1.5px solid #fff;
+    background: var(--node);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+  }
+  .wm-node--port,
+  .wm-node--airport {
+    height: 17px;
+    width: 17px;
+    font-size: 9px;
+  }
+  .wm-node--hq {
+    height: 26px;
+    width: 26px;
+    font-size: 12px;
+    background: #fff;
+    color: #0b2239;
+    border-color: #34d399;
+  }
+  /* Suppliers sit above hubs, which often share nearly the same point at world zoom. */
+  .wm-node--supplier,
+  .wm-node--alternative {
+    z-index: 2;
+  }
+  .wm-node--hq {
+    z-index: 2;
+  }
+  .wm-node--approx {
+    border-style: dashed;
+  }
+  .wm-node--affected {
+    border-color: #ff5c85;
+    box-shadow: 0 0 0 3px rgb(200 30 74 / 0.45);
+  }
+  .wm-node:focus-visible,
+  .wm-vehicle:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+  /* Diamond drawn with clip-path: MapLibre positions markers with `transform`, so a CSS rotation would move them. */
+  .wm-vehicle {
+    z-index: 3;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    background: var(--node);
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  }
+  .wm-vehicle::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%, 50% 0, 50% 18%, 18% 50%, 50% 82%, 82% 50%, 50% 18%);
+  }
+  .wm-vehicle--delayed {
+    background: #c81e4a;
+    animation: wm-pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes wm-pulse {
+    50% {
+      opacity: 0.55;
+    }
   }
 
   /* Animated dashed route lines (SVG) */
@@ -226,4 +304,112 @@
   .print-avoid-break {
     break-inside: avoid;
   }
+}
+
+/*
+  Workspace theme ("Premium Hero"). Scoped to .wm-app so the marketing site is
+  untouched. Remapping the colour tokens re-themes every screen from one place.
+*/
+.wm-app {
+  color-scheme: dark;
+  --color-slate-50: #18224a;
+  --color-slate-100: #1c2751;
+  --color-slate-200: #2a3768;
+  --color-slate-300: #3a4a82;
+  --color-slate-400: #7f8cb8;
+  --color-slate-500: #98a4cb;
+  --color-slate-600: #aeb8d9;
+  --color-slate-700: #c8d0e8;
+  --color-slate-800: #dde2f2;
+  --color-slate-900: #f1f4fc;
+  --color-navy: #f4f6ff;
+  --color-mist: #232e5b;
+  --color-brand-50: rgb(124 108 255 / 0.16);
+  --color-brand-100: rgb(124 108 255 / 0.24);
+  --color-brand-200: rgb(124 108 255 / 0.4);
+  --color-brand-300: #b8aeff;
+  --color-brand-400: #a394ff;
+  --color-brand-500: #8b7bff;
+  --color-brand-600: #7c6cff;
+  --color-brand-700: #6a5af9;
+  --color-brand-800: #c4bbff;
+  --color-amber-50: rgb(245 158 11 / 0.14);
+  --color-amber-200: rgb(245 158 11 / 0.35);
+  --color-amber-800: #fcd34d;
+  --color-amber-900: #fde68a;
+  --color-rose-50: rgb(244 63 94 / 0.14);
+  --color-rose-200: rgb(244 63 94 / 0.35);
+  --color-rose-800: #fda4af;
+  --color-rose-900: #fecdd3;
+  --color-emerald-50: rgb(16 185 129 / 0.14);
+  --color-emerald-200: rgb(16 185 129 / 0.35);
+  --color-emerald-800: #6ee7b7;
+  --color-emerald-900: #a7f3d0;
+  --color-emerald-950: #d1fae5;
+  --color-sky-50: rgb(56 189 248 / 0.14);
+  --color-sky-200: rgb(56 189 248 / 0.35);
+  --color-sky-800: #7dd3fc;
+  --color-sky-900: #bae6fd;
+  min-height: 100vh;
+  color: var(--color-slate-700);
+  background:
+    radial-gradient(60% 45% at 75% 0%, rgb(106 90 249 / 0.2), transparent 70%),
+    radial-gradient(45% 40% at 10% 100%, rgb(56 189 248 / 0.09), transparent 70%),
+    #0a1029;
+  background-attachment: fixed;
+}
+.wm-app .bg-white {
+  background: linear-gradient(160deg, rgb(32 42 88 / 0.72), rgb(18 26 58 / 0.82));
+}
+.wm-app input.bg-white,
+.wm-app select.bg-white,
+.wm-app textarea.bg-white,
+.wm-app dialog.bg-white {
+  background: #121a3a;
+}
+.wm-app .shadow-sm {
+  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 0.7);
+}
+.wm-app .bg-slate-100.min-h-screen {
+  background: transparent;
+}
+.wm-app .hover\:bg-brand-800:hover {
+  background: #5a4ae8;
+}
+.wm-app .text-rose-700 {
+  color: #fda4af;
+}
+.wm-app .text-emerald-700,
+.wm-app .text-brand-700 {
+  color: #a7f3d0;
+}
+.wm-app .text-brand-700 {
+  color: #c4bbff;
+}
+.wm-app .text-amber-700 {
+  color: #fcd34d;
+}
+.wm-app dialog::backdrop {
+  background: rgb(5 8 22 / 0.7);
+}
+.wm-topbar {
+  background: rgb(10 16 41 / 0.82);
+  backdrop-filter: blur(10px);
+}
+/* The rail stays on its own fixed dark surface. */
+.wm-rail {
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  background: linear-gradient(180deg, #111a3f, #0a1029);
+  border-right: 1px solid #232e5b;
+}
+.wm-rail a[aria-current="page"] {
+  background: linear-gradient(90deg, #6a5af9, #5a4ae8);
+}
+.wm-hero-title {
+  background: linear-gradient(90deg, #ffffff, #c4bbff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

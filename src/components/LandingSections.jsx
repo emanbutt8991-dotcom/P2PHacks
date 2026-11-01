@@ -9,7 +9,7 @@ export function Audience() {
     <section id="audience" className="py-20 sm:py-28" aria-labelledby="audience-title">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading id="audience-title" eyebrow="Who it's for" title="Starting with Canadian importers">
-          We begin with importing SMEs that don't have a dedicated supply-chain risk team. Exporters come later.
+          We begin with importing SMEs that don't have a dedicated supply-chain risk team, with early support for exporters.
         </SectionHeading>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           <Reveal as="article" className="rounded-3xl border border-mist bg-white p-7 shadow-[0_12px_32px_-12px_rgba(16,42,67,.12)]">
@@ -39,14 +39,14 @@ export function Audience() {
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
                 <Icon name="globe" />
               </span>
-              <Badge tone="slate">Future roadmap</Badge>
+              <Badge tone="slate">Early support</Badge>
             </div>
             <h3 className="mt-5 text-xl font-bold text-slate-800">For Exporters — Expand with confidence</h3>
             <ul className="mt-4 space-y-2.5 text-slate-600">
               {[
-                'Potential trade-compliance support for new markets',
-                'Potential border-friction and cost analysis',
-                'Broader international markets after the importer focus',
+                'Export shipments and destinations on the map today',
+                'Transport emissions on outbound routes',
+                'Trade-compliance support for new markets is on the roadmap',
               ].map((t) => (
                 <li key={t} className="flex gap-2.5">
                   <Icon name="layers" className="mt-0.5 h-5 w-5 shrink-0 text-slate-400" />
@@ -54,7 +54,7 @@ export function Audience() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-sm text-slate-500">Not available today — shown to explain where the concept could go.</p>
+            <p className="mt-4 text-sm text-slate-500">Import analysis is deeper today. Export tools will grow from here.</p>
           </Reveal>
         </div>
       </div>

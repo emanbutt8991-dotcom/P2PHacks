@@ -17,30 +17,30 @@ export default function Hero({ onOpenDemo }) {
       <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-7xl items-center gap-6 px-4 pt-10 pb-16 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-4 lg:px-8 lg:pt-6">
         <div className="relative z-10 animate-fade-up">
           <Badge tone="brand" className="py-1">
-            <Icon name="sparkles" className="h-3.5 w-3.5" /> AI-assisted trade planning for SMEs
+            <Icon name="sparkles" className="h-3.5 w-3.5" /> Supply-chain decisions for Canadian SMEs
           </Badge>
           <h1 id="hero-title" className="mt-6 text-5xl font-extrabold text-navy sm:text-6xl lg:text-[5.25rem] lg:leading-[1.02]">
             Plan. <span className="bg-gradient-to-r from-teal-600 to-ocean bg-clip-text text-transparent">Pivot.</span>
             <br className="hidden sm:block" /> Grow.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-pretty text-slate-600 sm:text-xl">
-            Understand your supply-chain exposure, explore tariff and freight-cost scenarios, and compare practical
-            responses—all starting with a short business questionnaire.
+            See suppliers and shipments on one map, test disruptions, and compare sourcing options on cost, delivery,
+            transport emissions and responsible sourcing.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button size="lg" variant="glow" onClick={() => onOpenDemo('blank')}>
               Get started for free <Icon name="arrowRight" className="h-4 w-4" />
             </Button>
             <Button size="lg" variant="secondary" onClick={() => onOpenDemo('sample')}>
-              Get a Demo
+              Try Demo
             </Button>
           </div>
           <p className="mt-5 text-sm text-slate-500">
-            Lower-data onboarding: approximate ranges first, no CSV upload to get started.
+            Start with approximate ranges or exact figures. No signup needed for the demo.
           </p>
           <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-dashed border-slate-300 px-3 py-1 text-xs font-medium text-slate-500">
             <span className="h-1.5 w-1.5 rounded-full bg-sun" aria-hidden="true" />
-            Hackathon prototype · Illustrative data
+            Hackathon build · Demo companies are fictional
           </p>
         </div>
 

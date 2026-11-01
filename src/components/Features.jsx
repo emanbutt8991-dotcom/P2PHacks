@@ -10,7 +10,7 @@ export default function Features({ onOpenDemo }) {
     <section id="features" className="bg-ice py-20 sm:py-28" aria-labelledby="features-title">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading id="features-title" eyebrow="What Waymark does" title="From product profile to practical next steps">
-          Three pillars of the concept. Interactive pieces work in this prototype; planned services are labelled.
+          Three pillars of the platform. Try the pieces below, then open a demo company for the full experience.
         </SectionHeading>
 
         <div className="mt-12 grid gap-4 lg:grid-cols-6">
@@ -258,7 +258,7 @@ function MonitoringCard() {
 }
 
 function JourneyCard({ onOpenDemo }) {
-  const steps = ['Questionnaire', 'Company profile', 'Disruption scenario', 'Strategy comparison', 'Summary report']
+  const steps = ['Choose a demo company', 'See your global map', 'Run a disruption', 'Compare sourcing options', 'Export a report']
   return (
     <article
       aria-labelledby="journey-title"
@@ -280,7 +280,7 @@ function JourneyCard({ onOpenDemo }) {
         ))}
       </ol>
       <Button variant="glow" className="mt-6 w-full" onClick={() => onOpenDemo('sample')}>
-        Try the sample company <Icon name="arrowRight" className="h-4 w-4" />
+        Try Demo <Icon name="arrowRight" className="h-4 w-4" />
       </Button>
     </article>
   )

@@ -8,6 +8,8 @@ const cadCompact = new Intl.NumberFormat('en-CA', {
 })
 
 export const money = (n) => cad.format(Math.round(n))
+// Unit prices keep their cents: rounding $31.50 to $32 misleads on low-value goods.
+export const unitPrice = (n) => `$${n.toFixed(2)}`
 export const moneyCompact = (n) => cadCompact.format(n)
 export const signedMoney = (n) => {
   const r = Math.round(n)

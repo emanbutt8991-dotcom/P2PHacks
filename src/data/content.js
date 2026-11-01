@@ -47,19 +47,19 @@ export const PERSONAS = [
 export const FAQS = [
   {
     q: 'What is Waymark?',
-    a: 'Waymark is a hackathon prototype that helps Canadian importing SMEs build a preliminary profile of their supply chain and compare illustrative responses to disruptions such as freight-cost increases, supplier delays or a hypothetical tariff change.',
+    a: 'Waymark is a supply-chain decision platform for Canadian small and medium-sized businesses. It maps suppliers and shipments, tests disruptions, and compares sourcing options on cost, delivery, transport emissions and responsible sourcing. This hackathon build includes two fictional demo companies.',
   },
   {
     q: 'How can AI support trade planning?',
-    a: 'The intended role of AI is to help organize scattered inputs, ask useful follow-up questions and explain scenarios in plain language. This local demo uses mock information and transparent, rule-based calculations — no live AI service is connected.',
+    a: 'All numbers come from a deterministic calculation engine. When an AI provider is configured, it can reword those results in plain language, but it cannot add figures of its own. Without one, Waymark uses rule-based explanations.',
   },
   {
     q: 'Does it replace our ERP or planning system?',
-    a: 'No. The prototype is a standalone demonstration. Integrations with ERP, WMS or logistics systems are future possibilities, not current features.',
+    a: 'No. Waymark sits alongside your existing systems. ERP integration is a configurable integration point, not a live connection.',
   },
   {
     q: 'Are classification suggestions and tariff results verified?',
-    a: 'No. Sample codes, rates and results are illustrative and must be verified — for example with a licensed customs broker or official CBSA guidance — before business use. The demo does not certify compliance.',
+    a: 'No. HS suggestions are starting points and duty rates are yours to confirm, for example with a licensed customs broker or official CBSA guidance. Waymark does not certify compliance.',
   },
   {
     q: 'What happens when business assumptions change?',
@@ -144,7 +144,7 @@ export const DIALOGS = {
     badge: 'Planned capability',
     paragraphs: [
       'A future API could let teams send product and sourcing profiles from their own systems and retrieve scenario results programmatically.',
-      'No API exists in this prototype, and no integrations are connected.',
+      'Enterprise integrations are configurable integration points. None are live connections today.',
     ],
   },
   resources: {
@@ -161,7 +161,7 @@ export const DIALOGS = {
     title: 'Sign in',
     badge: 'Not available in prototype',
     paragraphs: [
-      'Accounts are not available in this hackathon prototype, so there is nothing to sign in to.',
+      'Sign in from the account page.',
       'You can explore the full journey with a fictional sample company instead — no account or personal details needed.',
     ],
     action: 'sample',
@@ -212,7 +212,7 @@ export const DIALOGS = {
     title: 'Privacy Policy',
     badge: 'Prototype information',
     paragraphs: [
-      'This demo runs entirely in your browser. Questionnaire answers are held in memory for the current session and are not sent to any server.',
+      'Demo and local workspaces are stored in your browser. Coordinates and place names are sent to weather, geocoding and emissions services through the Waymark server when those features run.',
       'The newsletter form does not store or send your email address.',
       'A formal privacy policy would be required before collecting any real business data. Lower-data onboarding reduces — but does not eliminate — privacy risk.',
     ],
@@ -221,7 +221,7 @@ export const DIALOGS = {
     title: 'Security',
     badge: 'Prototype information',
     paragraphs: [
-      'There is no backend, database or account system in this prototype, so no business data is stored.',
+      'Demo and local workspaces stay in your browser. Real accounts need a configured Supabase project, where row-level security separates the data of each company. API keys stay on the server.',
       'No security certifications or guarantees are claimed. A production version would need a proper security review.',
     ],
   },

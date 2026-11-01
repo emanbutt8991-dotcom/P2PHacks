@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useState } from 'react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { ErrorBoundary, Skeleton } from './components/app/kit.jsx'
 import Features from './components/Features.jsx'
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
@@ -7,41 +9,33 @@ import { Audience, Faq, Newsletter, Personas } from './components/LandingSection
 import Navbar from './components/Navbar.jsx'
 import StorySection from './components/trade-visuals/StorySection.jsx'
 import DemoWorkspace from './components/demo/DemoWorkspace.jsx'
+import { DemoPicker, Pricing, SignIn, SignUp } from './pages/Public.jsx'
+import { WorkspaceProvider } from './state/WorkspaceContext.jsx'
 
-/*
-  No router: the app switches between the landing page and the demo workspace.
-  The URL hash "#demo" is pushed so the browser Back button returns to the site.
-*/
-export default function App() {
-  const initialDemo = typeof window !== 'undefined' && window.location.hash === '#demo'
-  const [view, setView] = useState(initialDemo ? 'demo' : 'landing')
-  const [demoMode, setDemoMode] = useState('blank')
-  const [demoKey, setDemoKey] = useState(0) // remounts the demo for a fresh session
+// The application is split from the marketing site: maps, charts and PDF export are large.
+const AppShell = lazy(() => import('./components/app/AppShell.jsx'))
+const Onboarding = lazy(() => import('./pages/Onboarding.jsx'))
+const Overview = lazy(() => import('./pages/app/Overview.jsx'))
+const MapPage = lazy(() => import('./pages/app/MapPage.jsx'))
+const Shipments = lazy(() => import('./pages/app/Shipments.jsx'))
+const Simulator = lazy(() => import('./pages/app/Simulator.jsx'))
+const CanadianAlternatives = lazy(() => import('./pages/app/Alternatives.jsx').then((m) => ({ default: m.CanadianAlternatives })))
+const GlobalAlternatives = lazy(() => import('./pages/app/Alternatives.jsx').then((m) => ({ default: m.GlobalAlternatives })))
+const Sustainability = lazy(() => import('./pages/app/Sustainability.jsx'))
+const Reports = lazy(() => import('./pages/app/Reports.jsx'))
+const Settings = lazy(() => import('./pages/app/Settings.jsx'))
+
+const ROUTED_DIALOGS = { signIn: '/signin', signUp: '/signup', pricing: '/pricing' }
+
+function Landing() {
+  const navigate = useNavigate()
   const [dialogKey, setDialogKey] = useState(null)
 
-  useEffect(() => {
-    const onPop = () => setView(window.location.hash === '#demo' ? 'demo' : 'landing')
-    window.addEventListener('popstate', onPop)
-    return () => window.removeEventListener('popstate', onPop)
-  }, [])
-
   const openDemo = (mode) => {
-    setDemoMode(mode)
-    setDemoKey((k) => k + 1)
-    setView('demo')
-    if (window.location.hash !== '#demo') window.history.pushState(null, '', '#demo')
+    navigate(mode === 'sample' ? '/demo' : '/signup')
     window.scrollTo({ top: 0 })
   }
-
-  const exitDemo = () => {
-    setView('landing')
-    window.history.pushState(null, '', window.location.pathname + window.location.search)
-    window.scrollTo({ top: 0 })
-  }
-
-  if (view === 'demo') {
-    return <DemoWorkspace key={demoKey} initialMode={demoMode} onExit={exitDemo} />
-  }
+  const openDialog = (key) => (ROUTED_DIALOGS[key] ? navigate(ROUTED_DIALOGS[key]) : setDialogKey(key))
 
   return (
     <>
@@ -51,7 +45,7 @@ export default function App() {
       >
         Skip to content
       </a>
-      <Navbar onOpenDialog={setDialogKey} />
+      <Navbar onOpenDialog={openDialog} />
       <main id="main">
         <Hero onOpenDemo={openDemo} />
         <StorySection onOpenDemo={openDemo} />
@@ -61,8 +55,49 @@ export default function App() {
         <Faq />
         <Newsletter />
       </main>
-      <Footer onOpenDialog={setDialogKey} onOpenDemo={openDemo} />
+      <Footer onOpenDialog={openDialog} onOpenDemo={openDemo} />
       <InfoDialog dialogKey={dialogKey} onClose={() => setDialogKey(null)} onOpenDemo={openDemo} />
     </>
+  )
+}
+
+function QuickEstimate() {
+  const navigate = useNavigate()
+  return <DemoWorkspace initialMode="sample" onExit={() => navigate('/')} />
+}
+
+function NotFound() {
+  return <Navigate to="/" replace />
+}
+
+export default function App() {
+  return (
+    <WorkspaceProvider>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="p-6"><Skeleton className="h-96" /></div>}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/demo" element={<DemoPicker />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/quick-estimate" element={<QuickEstimate />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/app" element={<AppShell />}>
+              <Route index element={<Overview />} />
+              <Route path="map" element={<MapPage />} />
+              <Route path="shipments" element={<Shipments />} />
+              <Route path="simulator" element={<Simulator />} />
+              <Route path="canadian" element={<CanadianAlternatives />} />
+              <Route path="global" element={<GlobalAlternatives />} />
+              <Route path="sustainability" element={<Sustainability />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
+    </WorkspaceProvider>
   )
 }

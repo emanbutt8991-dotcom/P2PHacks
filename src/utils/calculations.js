@@ -155,8 +155,10 @@ export function computeScenario(resolved, scenario) {
  * Compare current sourcing with two illustrative responses under the SAME
  * scenario and 12-month period. Each result splits "additional cost vs the
  * no-disruption baseline" into the same four components so they're comparable.
+ * `options` replaces the fictional Supplier B defaults with a real comparison:
+ * { assumptions, altSupplier: { name, leadTimeDays } }.
  */
-export function computeStrategies(answers, resolved, scenario, strategy) {
+export function computeStrategies(answers, resolved, scenario, strategy, options = {}) {
   const sc = computeScenario(resolved, scenario)
   const I = resolved.importSpend
   const F = resolved.freightSpend
@@ -165,9 +167,10 @@ export function computeStrategies(answers, resolved, scenario, strategy) {
   const t = scenario.tariffEnabled ? scenario.tariffRate / 100 : 0
   const daily = scenario.dailyShortfallCost || 0
   const s = strategy.altShare / 100
-  const A = STRATEGY_ASSUMPTIONS.alternative
-  const E = STRATEGY_ASSUMPTIONS.expedited
-  const alt = getAltSupplier(answers.sourcingRegion)
+  const A = { ...STRATEGY_ASSUMPTIONS.alternative, ...options.assumptions?.alternative }
+  const E = { ...STRATEGY_ASSUMPTIONS.expedited, ...options.assumptions?.expedited }
+  const alt = options.altSupplier ?? getAltSupplier(answers.sourcingRegion)
+  const fictional = options.altSupplier ? '' : ' (fictional)'
 
   // 1) Keep current sourcing and absorb the shocks
   const current = {
@@ -189,8 +192,8 @@ export function computeStrategies(answers, resolved, scenario, strategy) {
   const alternative = {
     id: 'alternative',
     name: `Alternative supplier`,
-    supplierName: `${alt.name} (fictional)`,
-    summary: `Move ${strategy.altShare}% of main-region volume to ${alt.name} (fictional).`,
+    supplierName: `${alt.name}${fictional}`,
+    summary: `Move ${strategy.altShare}% of main-region volume to ${alt.name}${fictional}.`,
     components: {
       freight: altFreightDelta,
       tariff: I * R * (1 - s) * t, // hypothetical tariff only applies to the original region
@@ -202,11 +205,13 @@ export function computeStrategies(answers, resolved, scenario, strategy) {
     leadTime: `${alt.leadTimeDays} days on shifted volume · ${sc.leadTimeWithDelay} days on the rest`,
     feasibility: {
       level: 'Medium',
-      text: `Needs supplier qualification (assumed ${A.qualificationWeeks} weeks); supplier and prices are fictional.`,
+      text: `Needs supplier qualification (assumed ${A.qualificationWeeks} weeks); ${
+        options.altSupplier ? 'figures are planning assumptions until quoted' : 'supplier and prices are fictional'
+      }.`,
     },
     tradeOffs: [
       'Reduces single-supplier and single-region reliance',
-      `+${Math.round(A.unitPricePremium * 100)}% unit price on shifted volume and ${money(A.onboardingCost)} one-time onboarding (fictional)`,
+      `${A.unitPricePremium >= 0 ? '+' : '−'}${Math.abs(Math.round(A.unitPricePremium * 100))}% unit price on shifted volume and ${money(A.onboardingCost)} one-time onboarding${options.altSupplier ? ' (assumption)' : ' (fictional)'}`,
       'Too slow to help with a disruption that is already under way',
     ],
   }
@@ -228,7 +233,7 @@ export function computeStrategies(answers, resolved, scenario, strategy) {
     feasibility: { level: 'High (short term)', text: 'Quick to arrange if capacity exists; costly to sustain.' },
     tradeOffs: [
       'Fastest way to protect stock during the delay',
-      `Assumes expedited freight costs ${E.costMultiplier}× standard per unit (fictional)`,
+      `Assumes expedited freight costs ${E.costMultiplier}× standard per unit${options.altSupplier ? ' (assumption)' : ' (fictional)'}`,
       'Does not reduce freight, tariff or concentration exposure',
     ],
   }
