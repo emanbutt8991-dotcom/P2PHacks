@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+/*
+  Design tokens — "The Living Global Supply Chain".
+  Fonts are bundled locally via @fontsource (imported in main.jsx), so the
+  demo never depends on a remote font service.
+*/
+@theme {
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Manrope Variable", "Manrope", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Named palette */
+  --color-midnight: #071b30;
+  --color-navy: #102a43;
+  --color-ocean: #176b9a;
+  --color-teal: #14b8a6;
+  --color-aqua: #5eead4;
+  --color-ice: #f5fafc;
+  --color-mist: #e8f0f4;
+  --color-sun: #f4b860;
+
+  /* Homepage accent tones — homepage hero, story, nav, footer only */
+  --color-deep: #102f4c;
+  --color-marine: #245a80;
+  --color-atmos: #3d7fa8;
+  --color-skylight: #74b8d8;
+  --color-icewhite: #e8f5fa;
+
+  /*
+    "brand" scale used across components (ocean → teal).
+    700 is the primary action colour (white text passes WCAG AA).
+  */
+  --color-brand-50: #eefaf9;
+  --color-brand-100: #d5f3ef;
+  --color-brand-200: #a9e7df;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2fc7b6;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #1a7fa8;
+  --color-brand-700: #176b9a;
+  --color-brand-800: #12547a;
+  --color-brand-900: #102a43;
+
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.35s ease-out both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ice text-slate-700 antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  dialog::backdrop {
+    background: rgb(7 27 48 / 0.6);
+    backdrop-filter: blur(3px);
+  }
+  input[type="range"] {
+    accent-color: var(--color-brand-700);
+  }
+}
+
+@layer components {
+  /* Scroll reveal: only hidden once JS has confirmed it can reveal it again (see useReveal). */
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  [data-reveal="shown"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* Animated dashed route lines (SVG) */
+  .route-flow {
+    stroke-dasharray: 6 8;
+    animation: route-flow 1.6s linear infinite;
+  }
+  @keyframes route-flow {
+    to {
+      stroke-dashoffset: -28;
+    }
+  }
+
+  /* Gentle bob for the ship illustration */
+  .bob {
+    animation: bob 4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    50% {
+      transform: translateY(-3px) rotate(-0.6deg);
+    }
+  }
+
+  /* Soft pulse for map nodes */
+  .node-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: node-pulse 2.4s ease-out infinite;
+  }
+  @keyframes node-pulse {
+    0% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(2.6);
+    }
+  }
+
+  /* Fine grain on dark cinematic sections */
+  .ocean-backdrop {
+    background:
+      radial-gradient(80% 60% at 70% 30%, rgb(23 107 154 / 0.35), transparent 70%),
+      radial-gradient(50% 40% at 10% 90%, rgb(20 184 166 / 0.14), transparent 70%),
+      var(--color-midnight);
+  }
+
+  /*
+    Homepage-only, lighter backdrops ("dark ocean at sunrise").
+    .ocean-backdrop above is left untouched because demo cards share it.
+    Hero ends on the same colour the story section starts with, so they join seamlessly.
+  */
+  .ocean-hero {
+    background:
+      radial-gradient(42% 52% at 72% 50%, rgb(116 184 216 / 0.2), transparent 72%),
+      radial-gradient(70% 55% at 88% 0%, rgb(61 127 168 / 0.08), transparent 70%),
+      radial-gradient(45% 40% at 4% 100%, rgb(20 184 166 / 0.07), transparent 70%),
+      linear-gradient(180deg, #ffffff 0%, #ffffff 55%, var(--color-ice) 100%);
+  }
+  .ocean-story {
+    background:
+      radial-gradient(60% 30% at 78% 18%, rgb(116 184 216 / 0.1), transparent 70%),
+      radial-gradient(50% 25% at 10% 70%, rgb(20 184 166 / 0.06), transparent 70%),
+      linear-gradient(180deg, var(--color-ice) 0%, #ffffff 100%);
+  }
+  /* Slow, barely-there light drift behind the globe (disabled for reduced motion below) */
+  .hero-aura {
+    background: radial-gradient(closest-side, rgb(116 184 216 / 0.22), rgb(61 127 168 / 0.08) 55%, transparent);
+    animation: hero-aura 14s ease-in-out infinite alternate;
+  }
+  @keyframes hero-aura {
+    from {
+      opacity: 0.75;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Print / Save as PDF: only the report is printed, everything visible */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  body {
+    background: #fff;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  * {
+    animation: none !important;
+  }
+  .print-avoid-break {
+    break-inside: avoid;
+  }
+}
